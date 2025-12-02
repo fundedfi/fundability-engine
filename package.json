@@ -1,0 +1,31 @@
+{
+  "name": "fundability-snapshot-engine",
+  "version": "1.0.0",
+  "description": "Stateless Fundability Snapshot API for credit + funding assessment",
+  "main": "api/fs-snapshot.ts",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "tsc",
+    "deploy": "vercel --prod",
+    "test": "node --test"
+  },
+  "keywords": [
+    "fundability",
+    "credit-scoring",
+    "fintech",
+    "api"
+  ],
+  "author": "StackLoans",
+  "license": "PROPRIETARY",
+  "dependencies": {
+    "@vercel/node": "^3.0.21"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "typescript": "^5.3.3",
+    "vercel": "^33.0.2"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}

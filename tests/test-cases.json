@@ -1,0 +1,341 @@
+{
+  "test_cases": [
+    {
+      "name": "Tier 1 - Prime Business Owner",
+      "description": "Excellent credit, low utilization, strong history",
+      "input": {
+        "first_name": "Sarah",
+        "last_name": "Johnson",
+        "email": "sarah@example.com",
+        "credit_score": 780,
+        "revolving_utilization_pct": 8,
+        "dti_pct": 22,
+        "inquiries_6m": 1,
+        "oldest_account_years": 12,
+        "open_tradelines": 9,
+        "recent_derogs_24m": 0,
+        "bk_or_major_event": false,
+        "requested_amount": 100000,
+        "primary_goal": "business_funding"
+      },
+      "expected": {
+        "tier": 1,
+        "score_range": "85-100",
+        "funding_range": "High"
+      }
+    },
+    {
+      "name": "Tier 2 - Good Profile with High Utilization",
+      "description": "Solid credit but utilization needs work",
+      "input": {
+        "first_name": "Michael",
+        "last_name": "Chen",
+        "email": "michael@example.com",
+        "credit_score": 710,
+        "revolving_utilization_pct": 55,
+        "dti_pct": 35,
+        "inquiries_6m": 2,
+        "oldest_account_years": 7,
+        "open_tradelines": 6,
+        "recent_derogs_24m": 0,
+        "bk_or_major_event": false,
+        "requested_amount": 50000,
+        "primary_goal": "debt_consolidation"
+      },
+      "expected": {
+        "tier": 2,
+        "score_range": "70-84",
+        "key_action": "Pay down utilization"
+      }
+    },
+    {
+      "name": "Tier 3 - Needs Optimization",
+      "description": "Multiple issues requiring strategic work",
+      "input": {
+        "first_name": "Jennifer",
+        "last_name": "Martinez",
+        "email": "jennifer@example.com",
+        "credit_score": 640,
+        "revolving_utilization_pct": 75,
+        "dti_pct": 48,
+        "inquiries_6m": 5,
+        "oldest_account_years": 4,
+        "open_tradelines": 4,
+        "recent_derogs_24m": 1,
+        "bk_or_major_event": false,
+        "requested_amount": 30000,
+        "primary_goal": "improve_credit"
+      },
+      "expected": {
+        "tier": 3,
+        "score_range": "55-69",
+        "multiple_actions": true
+      }
+    },
+    {
+      "name": "Tier 4 - Major Rehab Needed",
+      "description": "Recent bankruptcy, high utilization, low score",
+      "input": {
+        "first_name": "Robert",
+        "last_name": "Williams",
+        "email": "robert@example.com",
+        "credit_score": 540,
+        "revolving_utilization_pct": 92,
+        "dti_pct": 58,
+        "inquiries_6m": 8,
+        "oldest_account_years": 2,
+        "open_tradelines": 2,
+        "recent_derogs_24m": 4,
+        "bk_or_major_event": true,
+        "requested_amount": 15000,
+        "primary_goal": "raise_score_fast"
+      },
+      "expected": {
+        "tier": 4,
+        "score_range": "0-54",
+        "high_risk_flag": true
+      }
+    },
+    {
+      "name": "Missing Credit Score",
+      "description": "No credit score provided, using defaults",
+      "input": {
+        "first_name": "Amanda",
+        "last_name": "Taylor",
+        "email": "amanda@example.com",
+        "credit_score": null,
+        "revolving_utilization_pct": 35,
+        "dti_pct": null,
+        "inquiries_6m": 3,
+        "oldest_account_years": 5,
+        "open_tradelines": 5,
+        "recent_derogs_24m": 0,
+        "bk_or_major_event": false,
+        "requested_amount": 25000,
+        "primary_goal": "startup_funding"
+      },
+      "expected": {
+        "flags": {
+          "missing_credit_score": true,
+          "missing_dti": true
+        }
+      }
+    },
+    {
+      "name": "Home Equity Available",
+      "description": "Good credit with substantial home equity",
+      "input": {
+        "first_name": "David",
+        "last_name": "Brown",
+        "email": "david@example.com",
+        "credit_score": 745,
+        "revolving_utilization_pct": 15,
+        "dti_pct": 28,
+        "inquiries_6m": 0,
+        "oldest_account_years": 15,
+        "open_tradelines": 10,
+        "recent_derogs_24m": 0,
+        "bk_or_major_event": false,
+        "requested_amount": 150000,
+        "primary_goal": "business_funding",
+        "estimated_home_value": 500000,
+        "mortgage_balance": 250000
+      },
+      "expected": {
+        "tier": 1,
+        "home_equity": 250000
+      }
+    },
+    {
+      "name": "Inquiry Heavy Profile",
+      "description": "Good credit but too many recent applications",
+      "input": {
+        "first_name": "Lisa",
+        "last_name": "Anderson",
+        "email": "lisa@example.com",
+        "credit_score": 695,
+        "revolving_utilization_pct": 28,
+        "dti_pct": 32,
+        "inquiries_6m": 9,
+        "oldest_account_years": 8,
+        "open_tradelines": 7,
+        "recent_derogs_24m": 0,
+        "bk_or_major_event": false,
+        "requested_amount": 40000,
+        "primary_goal": "lower_utilization"
+      },
+      "expected": {
+        "inquiry_impact": "high",
+        "key_action": "Stop applications"
+      }
+    },
+    {
+      "name": "Thin File - New to Credit",
+      "description": "Limited credit history but clean",
+      "input": {
+        "first_name": "Kevin",
+        "last_name": "Lee",
+        "email": "kevin@example.com",
+        "credit_score": 680,
+        "revolving_utilization_pct": 12,
+        "dti_pct": 25,
+        "inquiries_6m": 1,
+        "oldest_account_years": 1.5,
+        "open_tradelines": 2,
+        "recent_derogs_24m": 0,
+        "bk_or_major_event": false,
+        "requested_amount": 20000,
+        "primary_goal": "startup_funding"
+      },
+      "expected": {
+        "depth_mix_issue": true,
+        "key_action": "Build credit mix"
+      }
+    },
+    {
+      "name": "High DTI with Good Credit",
+      "description": "Strong credit score but overleveraged income",
+      "input": {
+        "first_name": "Maria",
+        "last_name": "Garcia",
+        "email": "maria@example.com",
+        "credit_score": 760,
+        "revolving_utilization_pct": 18,
+        "dti_pct": 52,
+        "inquiries_6m": 2,
+        "oldest_account_years": 9,
+        "open_tradelines": 8,
+        "recent_derogs_24m": 0,
+        "bk_or_major_event": false,
+        "requested_amount": 60000,
+        "primary_goal": "debt_consolidation"
+      },
+      "expected": {
+        "tier": 2,
+        "dti_constraint": true,
+        "goal_path": "consolidation"
+      }
+    },
+    {
+      "name": "Not Sure About Goal",
+      "description": "Client exploring options without clear direction",
+      "input": {
+        "first_name": "James",
+        "last_name": "Wilson",
+        "email": "james@example.com",
+        "credit_score": 720,
+        "revolving_utilization_pct": 32,
+        "dti_pct": 38,
+        "inquiries_6m": 3,
+        "oldest_account_years": 6,
+        "open_tradelines": 6,
+        "recent_derogs_24m": 0,
+        "bk_or_major_event": false,
+        "requested_amount": 50000,
+        "primary_goal": "not_sure"
+      },
+      "expected": {
+        "tier": 2,
+        "goal_path": "evaluation"
+      }
+    }
+  ],
+  "edge_cases": [
+    {
+      "name": "Minimum Valid Input",
+      "description": "Bare minimum required fields only",
+      "input": {
+        "first_name": "Min",
+        "last_name": "Test",
+        "email": "min@test.com",
+        "revolving_utilization_pct": 50,
+        "open_tradelines": 1,
+        "requested_amount": 5000,
+        "primary_goal": "not_sure"
+      }
+    },
+    {
+      "name": "Maximum Values",
+      "description": "Testing upper bounds",
+      "input": {
+        "first_name": "Max",
+        "last_name": "Test",
+        "email": "max@test.com",
+        "credit_score": 850,
+        "revolving_utilization_pct": 100,
+        "dti_pct": 100,
+        "inquiries_6m": 20,
+        "oldest_account_years": 50,
+        "open_tradelines": 50,
+        "recent_derogs_24m": 10,
+        "bk_or_major_event": true,
+        "requested_amount": 1000000,
+        "primary_goal": "business_funding"
+      }
+    },
+    {
+      "name": "All Nullables Null",
+      "description": "Testing default handling",
+      "input": {
+        "first_name": "Null",
+        "last_name": "Test",
+        "email": "null@test.com",
+        "credit_score": null,
+        "revolving_utilization_pct": 40,
+        "dti_pct": null,
+        "open_tradelines": 3,
+        "requested_amount": 10000,
+        "primary_goal": "improve_credit"
+      }
+    }
+  ],
+  "validation_errors": [
+    {
+      "name": "Missing Required Field",
+      "input": {
+        "first_name": "Test"
+      },
+      "expected_error": "Multiple validation errors"
+    },
+    {
+      "name": "Invalid Email",
+      "input": {
+        "first_name": "Test",
+        "last_name": "User",
+        "email": "not-an-email",
+        "revolving_utilization_pct": 50,
+        "open_tradelines": 1,
+        "requested_amount": 5000,
+        "primary_goal": "not_sure"
+      },
+      "expected_error": "email must be valid"
+    },
+    {
+      "name": "Invalid Credit Score",
+      "input": {
+        "first_name": "Test",
+        "last_name": "User",
+        "email": "test@test.com",
+        "credit_score": 200,
+        "revolving_utilization_pct": 50,
+        "open_tradelines": 1,
+        "requested_amount": 5000,
+        "primary_goal": "not_sure"
+      },
+      "expected_error": "credit_score must be between 300 and 850"
+    },
+    {
+      "name": "Invalid Goal",
+      "input": {
+        "first_name": "Test",
+        "last_name": "User",
+        "email": "test@test.com",
+        "revolving_utilization_pct": 50,
+        "open_tradelines": 1,
+        "requested_amount": 5000,
+        "primary_goal": "invalid_goal"
+      },
+      "expected_error": "primary_goal must be one of"
+    }
+  ]
+}

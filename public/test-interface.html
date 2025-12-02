@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundability Snapshot - Test Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .result-card {
+            display: none;
+        }
+        
+        .result-card.show {
+            display: block;
+        }
+        
+        .score-display {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .score-number {
+            font-size: 4em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .score-tier {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        .section h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .list-item {
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+        
+        .strength {
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .risk {
+            border-left: 4px solid #ff5252;
+        }
+        
+        .action {
+            border-left: 4px solid #2196F3;
+            padding-left: 15px;
+        }
+        
+        .funding-range {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .funding-box {
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .funding-box .label {
+            font-size: 0.8em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .funding-box .value {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        .api-endpoint {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            word-break: break-all;
+        }
+        
+        .subscore {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .subscore-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .subscore-value {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Fundability Snapshot Engine</h1>
+            <p>Test Interface - Calculate Credit Fundability Scores</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Input Form -->
+            <div class="card">
+                <h2>Client Information</h2>
+                
+                <div class="api-endpoint" id="apiEndpoint">
+                    API: (Configure below)
+                </div>
+                
+                <form id="fundabilityForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>First Name *</label>
+                            <input type="text" id="first_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name *</label>
+                            <input type="text" id="last_name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="email" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Credit Score (300-850)</label>
+                            <input type="number" id="credit_score" min="300" max="850" placeholder="Leave blank if unknown">
+                        </div>
+                        <div class="form-group">
+                            <label>Utilization % *</label>
+                            <input type="number" id="revolving_utilization_pct" min="0" max="100" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>DTI % (Debt-to-Income)</label>
+                            <input type="number" id="dti_pct" min="0" max="100" placeholder="Leave blank if unknown">
+                        </div>
+                        <div class="form-group">
+                            <label>Recent Inquiries (6mo)</label>
+                            <input type="number" id="inquiries_6m" min="0" value="0">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Oldest Account (Years)</label>
+                            <input type="number" id="oldest_account_years" min="0" step="0.5" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Open Tradelines *</label>
+                            <input type="number" id="open_tradelines" min="0" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Recent Derogs (24mo)</label>
+                            <input type="number" id="recent_derogs_24m" min="0" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Bankruptcy/Major Event?</label>
+                            <select id="bk_or_major_event">
+                                <option value="false">No</option>
+                                <option value="true">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Requested Amount *</label>
+                            <input type="number" id="requested_amount" min="0" step="1000" required placeholder="50000">
+                        </div>
+                        <div class="form-group">
+                            <label>Primary Goal *</label>
+                            <select id="primary_goal" required>
+                                <option value="business_funding">Business Funding</option>
+                                <option value="startup_funding">Startup Funding</option>
+                                <option value="debt_consolidation">Debt Consolidation</option>
+                                <option value="improve_credit">Improve Credit</option>
+                                <option value="lower_utilization">Lower Utilization</option>
+                                <option value="raise_score_fast">Raise Score Fast</option>
+                                <option value="not_sure">Not Sure</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>API Endpoint URL</label>
+                        <input type="text" id="apiUrl" placeholder="https://your-app.vercel.app/api/fs-snapshot" required>
+                    </div>
+
+                    <button type="submit" id="submitBtn">Calculate Fundability Score</button>
+                </form>
+            </div>
+
+            <!-- Results Display -->
+            <div class="card result-card" id="resultsCard">
+                <h2>Fundability Analysis</h2>
+
+                <div class="error-message" id="errorMessage"></div>
+
+                <div class="score-display">
+                    <div class="score-number" id="scoreNumber">--</div>
+                    <div class="score-tier" id="scoreTier">---</div>
+                </div>
+
+                <div class="section">
+                    <h3>📊 Subscores</h3>
+                    <div id="subscores"></div>
+                </div>
+
+                <div class="section">
+                    <h3>💪 Key Strengths</h3>
+                    <div id="strengths"></div>
+                </div>
+
+                <div class="section">
+                    <h3>⚠️ Key Risks</h3>
+                    <div id="risks"></div>
+                </div>
+
+                <div class="section">
+                    <h3>🎯 High-Impact Actions</h3>
+                    <div id="actions"></div>
+                </div>
+
+                <div class="section">
+                    <h3>💰 Funding Ranges</h3>
+                    <div class="funding-range">
+                        <div class="funding-box">
+                            <div class="label">Current</div>
+                            <div class="value" id="fundingNow">---</div>
+                        </div>
+                        <div class="funding-box">
+                            <div class="label">Optimized</div>
+                            <div class="value" id="fundingOptimized">---</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>🗺️ Recommended Path</h3>
+                    <div class="list-item" id="goalPath">---</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('fundabilityForm');
+        const resultsCard = document.getElementById('resultsCard');
+        const errorMessage = document.getElementById('errorMessage');
+        const submitBtn = document.getElementById('submitBtn');
+        const apiEndpointDisplay = document.getElementById('apiEndpoint');
+        const apiUrlInput = document.getElementById('apiUrl');
+
+        // Update displayed API endpoint
+        apiUrlInput.addEventListener('input', (e) => {
+            apiEndpointDisplay.textContent = `API: ${e.target.value || '(Not configured)'}`;
+        });
+
+        // Load saved API URL from localStorage
+        const savedApiUrl = localStorage.getItem('fundabilityApiUrl');
+        if (savedApiUrl) {
+            apiUrlInput.value = savedApiUrl;
+            apiEndpointDisplay.textContent = `API: ${savedApiUrl}`;
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Hide previous results
+            resultsCard.classList.remove('show');
+            errorMessage.classList.remove('show');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Calculating...';
+
+            // Save API URL
+            localStorage.setItem('fundabilityApiUrl', apiUrlInput.value);
+
+            // Gather form data
+            const formData = {
+                first_name: document.getElementById('first_name').value,
+                last_name: document.getElementById('last_name').value,
+                email: document.getElementById('email').value,
+                credit_score: document.getElementById('credit_score').value ? parseInt(document.getElementById('credit_score').value) : null,
+                revolving_utilization_pct: parseFloat(document.getElementById('revolving_utilization_pct').value),
+                dti_pct: document.getElementById('dti_pct').value ? parseFloat(document.getElementById('dti_pct').value) : null,
+                inquiries_6m: parseInt(document.getElementById('inquiries_6m').value),
+                oldest_account_years: parseFloat(document.getElementById('oldest_account_years').value),
+                open_tradelines: parseInt(document.getElementById('open_tradelines').value),
+                recent_derogs_24m: parseInt(document.getElementById('recent_derogs_24m').value),
+                bk_or_major_event: document.getElementById('bk_or_major_event').value === 'true',
+                requested_amount: parseFloat(document.getElementById('requested_amount').value),
+                primary_goal: document.getElementById('primary_goal').value,
+                source: 'web_test_interface'
+            };
+
+            try {
+                const response = await fetch(apiUrlInput.value, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.details ? data.details.join(', ') : data.error);
+                }
+
+                // Display results
+                displayResults(data);
+                resultsCard.classList.add('show');
+
+            } catch (error) {
+                errorMessage.textContent = `Error: ${error.message}`;
+                errorMessage.classList.add('show');
+                resultsCard.classList.add('show');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Calculate Fundability Score';
+            }
+        });
+
+        function displayResults(data) {
+            // Score
+            document.getElementById('scoreNumber').textContent = data.fundability_score;
+            document.getElementById('scoreTier').textContent = data.fundability_tier_label;
+
+            // Subscores
+            const subscoresHtml = `
+                <div class="subscore">
+                    <span class="subscore-label">Credit Score</span>
+                    <span class="subscore-value">${data.subscores.credit_score_subscore}/100</span>
+                </div>
+                <div class="subscore">
+                    <span class="subscore-label">Utilization</span>
+                    <span class="subscore-value">${data.subscores.utilization_subscore}/100</span>
+                </div>
+                <div class="subscore">
+                    <span class="subscore-label">DTI Ratio</span>
+                    <span class="subscore-value">${data.subscores.dti_subscore}/100</span>
+                </div>
+                <div class="subscore">
+                    <span class="subscore-label">Inquiries</span>
+                    <span class="subscore-value">${data.subscores.inquiry_subscore}/100</span>
+                </div>
+                <div class="subscore">
+                    <span class="subscore-label">Depth/Mix</span>
+                    <span class="subscore-value">${data.subscores.depth_mix_subscore}/100</span>
+                </div>
+                <div class="subscore">
+                    <span class="subscore-label">Penalty Points</span>
+                    <span class="subscore-value">${data.subscores.penalty_points}</span>
+                </div>
+            `;
+            document.getElementById('subscores').innerHTML = subscoresHtml;
+
+            // Strengths
+            document.getElementById('strengths').innerHTML = data.key_strengths
+                .map(s => `<div class="list-item strength">${s}</div>`)
+                .join('');
+
+            // Risks
+            document.getElementById('risks').innerHTML = data.key_risks
+                .map(r => `<div class="list-item risk">${r}</div>`)
+                .join('');
+
+            // Actions
+            document.getElementById('actions').innerHTML = data.high_impact_actions
+                .map((a, i) => `<div class="list-item action"><strong>${i + 1}.</strong> ${a}</div>`)
+                .join('');
+
+            // Funding ranges
+            document.getElementById('fundingNow').textContent = data.funding_range_now;
+            document.getElementById('fundingOptimized').textContent = data.funding_range_after_optimization;
+
+            // Goal path
+            document.getElementById('goalPath').textContent = data.goal_path;
+        }
+
+        // Load example data button
+        function loadExampleData() {
+            document.getElementById('first_name').value = 'John';
+            document.getElementById('last_name').value = 'Smith';
+            document.getElementById('email').value = 'john.smith@example.com';
+            document.getElementById('credit_score').value = '720';
+            document.getElementById('revolving_utilization_pct').value = '35';
+            document.getElementById('dti_pct').value = '32';
+            document.getElementById('inquiries_6m').value = '2';
+            document.getElementById('oldest_account_years').value = '8';
+            document.getElementById('open_tradelines').value = '7';
+            document.getElementById('recent_derogs_24m').value = '0';
+            document.getElementById('bk_or_major_event').value = 'false';
+            document.getElementById('requested_amount').value = '50000';
+            document.getElementById('primary_goal').value = 'business_funding';
+        }
+    </script>
+</body>
+</html>
