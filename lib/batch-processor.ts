@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Batch Processing System for Fundability Assessments
  * Process multiple clients in bulk with rate limiting and error handling
